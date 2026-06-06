@@ -26,19 +26,35 @@ echo "[2/10] Applying patches"
 
 
 # ==============================
-# STEP 3: Build Signal-Desktop
+# STEP 3: Build whatslectron
 # ==============================
-echo "[3/10] Building Signal-Desktop..."
+echo "[3/10] Building whatslectron..."
 
  if [ ! -e "${BUILD_DIR}/whatslectron-src/linux-arm64-unpacked/" ]; then
+ PATH=$PATH:${BUILD_DIR}/.clickable/home/.local/share/pnpm/
+    
+    echo "---> Installing nvm"
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash || true
+    export NVM_DIR="$HOME/.nvm"
+    echo "---> load nvm: $NVM_DIR"
+    . "$NVM_DIR/nvm.sh" || true # This loads nvm
+
+    echo "---> nvm install 24.15.0"
+    nvm install 24.15.0
+    nvm use 24.15.0
+    node -v
+    
+    echo "---> pnpm install"
     curl -fsSL https://get.pnpm.io/install.sh | env SHELL=bash sh -
     source ${BUILD_DIR}/.clickable/home/.bashrc
+
+    #pnpm add -g node-gyp
     pnpm -v
   
-    #pre-install X64 packages
-   # pnpm install --verbose  --network-concurrency=1 --child-concurrency=1 || true
+    echo "--->add"
+    pnpm dlx node-gyp --version
   
-    export npm_config_arch=amd64
+    export npm_config_arch=x64
     export npm_config_target_arch=arm64
     export npm_config_target_platform=linux
     export ESBUILD_ARCH=arm64
@@ -46,9 +62,9 @@ echo "[3/10] Building Signal-Desktop..."
     
     echo "Install"
     sleep 5
-    pnpm install --verbose  --network-concurrency=1 --child-concurrency=1
+    pnpm install  --dangerously-allow-all-builds --verbose  --network-concurrency=1 --child-concurrency=1
        
-    echo "Build Signal"
+    echo "Build whatslectron"
     sleep 5;
     # This is the equivalent of 'npm run build-linux' with some adjustments
     pnpm run build:esbuild
@@ -225,6 +241,7 @@ cp *_extract_chsdjksd/usr/bin/md5sum "$INSTALL_DIR/bin/"
 echo "Copying signal-desktop..."
 mkdir -p "$INSTALL_DIR/opt/whatslectron"
 cp -r ${BUILD_DIR}/whatslectron-src/dist/linux-arm64-unpacked/* "$INSTALL_DIR/opt/whatslectron/" || true
+mv $INSTALL_DIR/opt/whatslectron/whatsapp-electron $INSTALL_DIR/opt/whatslectron/whatslectron
 
 echo "Copying maliit-input-context..."
 cp $WORKDIR_MALIIT/maliit-inputcontext-gtk-$VERSION/builddir/gtk3/gtk-3.0/im-maliit.so $INSTALL_DIR/lib/aarch64-linux-gnu/gtk-3.0/3.0.0/immodules/
