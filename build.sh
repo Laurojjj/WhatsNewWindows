@@ -15,20 +15,15 @@ INSTALL_DIR="${BUILD_DIR}/install"
 # ========================
 # STEP 1: CLONE SIGNAL-DESKTOP
 # ========================
-echo "[1/10] Clone Signal-Desktop github"
+echo "[1/9] Copy whatslectron src"
 cp -r ${ROOT}/whatslectron-src ${BUILD_DIR} || true
 cd ${BUILD_DIR}/whatslectron-src
-# ========================
-# STEP 2: APPLY PATCHES
-# ========================
-echo "[2/10] Applying patches"
-
 
 
 # ==============================
-# STEP 3: Build whatslectron
+# STEP 2: Build whatslectron
 # ==============================
-echo "[3/10] Building whatslectron..."
+echo "[2/9] Building whatslectron..."
 
  if [ ! -e "${BUILD_DIR}/whatslectron-src/linux-arm64-unpacked/" ]; then
  PATH=$PATH:${BUILD_DIR}/.clickable/home/.local/share/pnpm/
@@ -74,9 +69,9 @@ echo "[3/10] Building whatslectron..."
 
 
 # ===================================
-# STEP 5: BUILD THE FAKE xdg-open
+# STEP 3: BUILD THE FAKE xdg-open
 # ===================================
-echo "[5/10] Building fake xdg-open & placeholder-killer ..."
+echo "[3/9] Building fake xdg-open & placeholder-killer ..."
 cp -r ${ROOT}/utils/xdg-open/ ${BUILD_DIR}/
 cd ${BUILD_DIR}/xdg-open/
 mkdir -p build
@@ -92,9 +87,9 @@ cmake ..
 make
 
 # ===================================
-# STEP 5: BUILD QML modules
+# STEP 4: BUILD QML modules
 # ===================================
-echo "[6/10] Building QML modules ..."
+echo "[4/9] Building QML modules ..."
 rm -rvf ${BUILD_DIR}/download-helper
 cp -r ${ROOT}/utils/download-helper/ ${BUILD_DIR}/download-helper
 cd ${BUILD_DIR}/download-helper/qml-download-helper-module/
@@ -120,9 +115,9 @@ cmake ..
 cmake --build .
 
 # =================================================
-# STEP 9: Build libnotify
+# STEP 5: Build libnotify
 # =================================================
-echo "[9/11] Building libnotify..."
+echo "[5/9] Building libnotify..."
 
 rm -rvf ${BUILD_DIR}/libnotify || true
 mkdir -p ${BUILD_DIR}/libnotify
@@ -155,7 +150,7 @@ DEB_BUILD_OPTIONS=nocheck dpkg-buildpackage -us -uc -a arm64
 # =================================================
 # STEP 6: Install dependencies
 # =================================================
-echo "[7/10] Install dependencies..."
+echo "[6/9] Install dependencies..."
 
 cd ${BUILD_DIR}
 DEPENDENCIES="libhybris-utils xdotool libmaliit-glib2 libxdo3 x11-utils"
@@ -176,7 +171,7 @@ dpkg-deb -x "coreutils_9.4-3ubuntu6_arm64.deb" "coreutils_9.4-3ubuntu6_arm64.deb
 # =================================================
 # STEP 7: Downloading maliit-inputcontext-gtk3
 # =================================================
-echo "[8/10] Building maliit-inputcontext-gtk3 and download dependencies..."
+echo "[7/9] Building maliit-inputcontext-gtk3 and download dependencies..."
 
 
 PKGNAME="maliit-inputcontext-gtk"
@@ -216,7 +211,7 @@ DEB_BUILD_OPTIONS=nocheck dpkg-buildpackage -us -uc -a arm64
 # ==============================
 # STEP 8: Copying files
 # ==============================  
-echo "[9/10] Copying files..." 
+echo "[8/9] Copying files..." 
 
 
 echo "Copying dependencies..."
@@ -308,7 +303,7 @@ chmod +x $INSTALL_DIR/opt/whatslectron/chrome_crashpad_handler
 # ========================
 # STEP 9: BUILD THE CLICK PACKAGE
 # ========================
-echo "[10/10] Building click package..."
+echo "[9/9] Building click package..."
 # click build "$INSTALL_DIR"
 
 echo "✅ Preparation done, building the .click package."

@@ -1,7 +1,7 @@
 const { app, BrowserWindow, session, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { URL } = require('url');
+const { URL, pathToFileURL } = require('node:url');
 const { shell } = require('electron');
 const { execFile } = require('node:child_process');
 const { readFile, stat } = require('node:fs/promises');
@@ -15,6 +15,16 @@ const USER_AGENT =
 // Active explicitement les événements tactiles
 app.commandLine.appendSwitch('touch-events', 'enabled');
 app.commandLine.appendSwitch('enable-touch-events');
+
+const downloadDir =
+  '/home/phablet/.cache/whatslectron.pparent/downloads';
+
+function safeFilename(name) {
+  return String(name || 'download')
+    .replace(/[\/\\?%*:|"<>]/g, '_')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -31,6 +41,43 @@ function createWindow() {
       sandbox: false,
     }
   });
+  
+  win.webContents.session.on('will-download', (event, item) => {
+  try {
+    const filename = safeFilename(item.getFilename());
+    const defaultPath = path.join(downloadDir, filename);
+
+    console.log('[download] url:', item.getURL());
+    console.log('[download] mime:', item.getMimeType());
+    console.log('[download] filename:', filename);
+    console.log('[download] defaultPath:', defaultPath);
+
+    item.setSavePath(defaultPath);
+
+    item.on('done', (_event, state) => {
+      const savePath = item.getSavePath();
+      console.log('[download] done:', state, savePath);
+
+      if (state !== 'completed') {
+        console.log('[download] not opening, state:', state);
+        return;
+      }
+
+      const fileUrl = pathToFileURL(savePath).toString();
+
+      console.log('[download] opening:', fileUrl);
+
+      shell.openExternal(fileUrl).catch(err => {
+        console.error('[download] openExternal failed:', err);
+      });
+    });
+  } catch (err) {
+    console.error('[download] failed:', err);
+    event.preventDefault();
+  }
+});
+  
+
   
   win.once('ready-to-show', () => {
   win.maximize();
@@ -148,8 +195,9 @@ function createWindow() {
         
         return { action: 'deny' };
       });
+    
   
-
+ 
     
 }
 
