@@ -76,9 +76,17 @@ sandboxoptions="--no-sandbox"
 gpuoptions="--use-gl=egl --enable-gpu-rasterization --enable-zero-copy --ignore-gpu-blocklist --enable-features=UseSkiaRenderer,VaapiVideoDecoder --disable-frame-rate-limit --disable-gpu-vsync --enable-oop-rasterization"
 
 #Start a dummy Qt app called "placeholder-killer" to realease lomiri from its waiting, if necessary (not necessary with latest lomiri)
-echo "df84ff50557373cd882941cafb7ad344  /lib/aarch64-linux-gnu/liblomiri-private.so"| bin/md5sum -c -
-if [ "$?" -ne "0" ]; then
+#Version 1.2: 2abe4aa39f76b1526c334afdfeef309b  /lib/aarch64-linux-gnu/liblomiri-private.so
+#echo "2abe4aa39f76b1526c334afdfeef309b  /lib/aarch64-linux-gnu/liblomiri-private.so"| bin/md5sum -c -
+echo "2abe4aa39f76b1526c334afdfeef309b  /lib/aarch64-linux-gnu/liblomiri-private.so"| bin/md5sum -c -
+if [ "$?" -eq "0" ]; then
 ( utils/sleep.sh; $PWD/bin/placeholder-killer )&
+fi
+
+echo "2abe4aa39f76b1526c334afdfeef309b  /lib/aarch64-linux-gnu/liblomiri-private.so"| md5sum -c -
+#If we are running the latest version of lomiri we'll use Xcb to display ContentHub Windows
+if [ "$?" -ne "0" ]; then
+    export QT_QPA_PLATFORM=xcb
 fi
 
 ( utils/filedialog-deamon.sh $$ )&

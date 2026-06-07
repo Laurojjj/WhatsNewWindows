@@ -269,7 +269,7 @@ cp ${ROOT}/utils/rm.sh "$INSTALL_DIR/utils/"
 cp ${ROOT}/utils/sleep.sh "$INSTALL_DIR/utils/"
 cp ${ROOT}/utils/mkdir.sh "$INSTALL_DIR/utils/"
 cp ${ROOT}/utils/get-scale.sh "$INSTALL_DIR/utils/"
-cp ${ROOT}/utils/filedialog-deamon.sh "$INSTALL_DIR/utils/"
+cp ${ROOT}/utils/select-file.sh "$INSTALL_DIR/utils/"
 cp ${BUILD_DIR}/xdg-open/build/xdg-open $INSTALL_DIR/bin/
 cp ${BUILD_DIR}/placeholder-killer/build/placeholder-killer $INSTALL_DIR/bin/
 mkdir $INSTALL_DIR/utils/download-helper/
@@ -298,7 +298,7 @@ chmod +x $INSTALL_DIR/utils/rm.sh
 chmod +x $INSTALL_DIR/utils/sleep.sh
 chmod +x $INSTALL_DIR/utils/mkdir.sh
 chmod +x $INSTALL_DIR/utils/get-scale.sh
-chmod +x $INSTALL_DIR/utils/filedialog-deamon.sh
+chmod +x $INSTALL_DIR/utils/select-file.sh
 chmod +x $INSTALL_DIR/launcher.sh
 chmod +x $INSTALL_DIR/pushexec
 chmod +x $INSTALL_DIR/opt/whatslectron/whatslectron
