@@ -579,7 +579,7 @@ function addLeftMenuButtonToChatList(){
   
     if (  My.chatListHeader() && My.chatListHeader().firstChild && ! My.chatListHeader().querySelector('.added_menu_button') )
     {
-    addCss(".added_menu_button span { display:block; height: 100%; width: 100%;}.added_menu_button {  z-index:500; width:50px; height:45px; } html[dir] .added_menu_button { border-radius:50%; } html[dir=ltr] .added_menu_button { right:11px } html[dir=rtl] .added_menu_button { left:11px } .added_menu_button path { fill:var(--panel-header-icon); fill-opacity:1 } .svg_back { transform: rotate(90deg); height: 100%;}");
+    addCss(".added_menu_button span { display:block; height: 100%; width: 100%;}.added_menu_button {  z-index:500; width:50px; height:45px; } html[dir] .added_menu_button { border-radius:50%; } html[dir=ltr] .added_menu_button { right:11px } html[dir=rtl] .added_menu_button { left:11px } .added_menu_button path { fill:var(--WDS-content-action-default); fill-opacity:1 } .svg_back { transform: rotate(90deg); height: 100%;}");
 
     var newHTML         = document.createElement('div');
     newHTML.className += "added_menu_button";
@@ -603,7 +603,7 @@ function addLeftMenuButtonToChatList(){
 //----------------------------------------------------------------------------
 function addBackButtonToChatView(){
 
-    addCss(".back_button span { display:block; height: 100%; width: 100%;}.back_button {  z-index:200; width:37px; height:45px; } html[dir] .back_button { border-radius:50%; } html[dir=ltr] .back_button { right:11px } html[dir=rtl] .back_button { left:11px } .back_button path { fill:var(--panel-header-icon); fill-opacity:1 } .svg_back { transform: rotate(90deg); height: 100%;}");
+    addCss(".back_button span { display:block; height: 100%; width: 100%;}.back_button {  z-index:200; width:37px; height:45px; } html[dir] .back_button { border-radius:50%; } html[dir=ltr] .back_button { right:11px } html[dir=rtl] .back_button { left:11px } .back_button path { fill:var(--WDS-content-action-default); fill-opacity:1 } .svg_back { transform: rotate(90deg); height: 100%;}");
     
     var newHTML         = document.createElement('div');
     newHTML.className += "back_button";

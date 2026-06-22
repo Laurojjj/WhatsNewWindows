@@ -89,8 +89,6 @@ if [ "$?" -ne "0" ]; then
     export QT_QPA_PLATFORM=xcb
 fi
 
-( utils/filedialog-deamon.sh $$ )&
-
 initpwd=$PWD
 utils/mkdir.sh /home/phablet/.cache/whatslectron.pparent/downloads/
 cd /home/phablet/.cache/whatslectron.pparent/downloads/
